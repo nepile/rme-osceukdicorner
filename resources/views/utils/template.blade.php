@@ -1,5 +1,5 @@
-@include('header')
+@include('utils.header')
 
 @yield('core-template')
 
-@include('footer')
+@include('utils.footer')
