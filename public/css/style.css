@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.bg-white {
+    background: #fff;
+}
+
+.start-corner {
+    border-radius: 5px 0 0 5px;
+}
+
+.end-corner {
+    border-radius: 0 5px 5px 0;
+}
+
+input {
+    height: 46px;
+}
