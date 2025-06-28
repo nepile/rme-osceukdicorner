@@ -1,6 +1,5 @@
-@extends('utils.template')
-
-@section('core-template')
+<x-header title="{{ $title }}" />
+<x-content>
     <div class="container-fluid">
         <div class="row vh-100 justify-content-center align-items-center">
             <div class="col-xl-7 d-flex justify-content-center   p-0 rounded" style="height: 420px;">
@@ -14,7 +13,7 @@
                         <hr>
                     </div>
 
-                    @include('utils.alert')
+                    <x-alert />
 
                     <form action="{{ route('handle-login') }}" method="POST">
                         @csrf
@@ -34,4 +33,5 @@
             </div>
         </div>
     </div>
-@endsection
+</x-content>
+<x-footer />

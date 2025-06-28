@@ -1,8 +1,15 @@
-@extends('utils.template')
+<x-header title="{{ $title }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+</x-header>
 
-@section('core-template')
-    {{-- content --}}
+<x-content>
+    @include('admin.template.sidebar')
     <div class="container-fluid">
-        @yield('admin-template')
+        @include('admin.template.navbar')
+        {{ $slot }}
     </div>
-@endsection
+</x-content>
+
+<x-footer>
+    <script src="{{ asset('js/admin.js') }}"></script>
+</x-footer>

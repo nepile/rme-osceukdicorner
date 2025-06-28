@@ -1,8 +1,7 @@
-@extends('utils.template')
+<x-header title="{{ $title }}" />
 
-@section('core-template')
-    {{-- content --}}
-    <div class="container-fluid">
-        @yield('participant-tester-template')
-    </div>
-@endsection
+<x-content>
+    {{ $slot }}
+</x-content>
+
+<x-footer />
