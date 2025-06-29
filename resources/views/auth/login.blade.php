@@ -1,7 +1,7 @@
 <x-header title="{{ $title }}" />
 <x-content>
     <div class="container-fluid">
-        <div class="row vh-100 justify-content-center align-items-center">
+        <div class="row vh-100 justify-content-center align-items-center bg-light">
             <div class="col-xl-7 d-flex justify-content-center   p-0 rounded" style="height: 420px;">
                 <div class="col-xl-5 d-xl-inline-block d-none">
                     <img src="{{ asset('img/osceukdicorner-login-img.jpg') }}" class="start-corner object-fit-cover h-100 w-100" alt="osceukdicorner-login-img">
