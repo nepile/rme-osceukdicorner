@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\ExamModelController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\NonAdmin\Participant\DashboardParticipantController;
@@ -14,6 +15,9 @@ Route::post('/handle-logout', [LogoutController::class, 'handlelogout'])->name('
 Route::middleware('jwt.auth.custom')->group(function () {
     Route::middleware('role:admin')->prefix('/admin')->group(function () {
         Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
+        Route::prefix('/exam-model')->group(function () {
+            Route::get('/', [ExamModelController::class, 'index'])->name('exam-model');
+        });
     });
 
     Route::middleware('role:mentor')->prefix('/tester')->group(function () {
