@@ -7,7 +7,7 @@
                 <p class="text-secondary">Klik tombol tambah sesi untuk membuat sesi ujian baru.</p>
             </div>
             <div>
-                <button class="btn w-100 w-xl-0 bg-success-subtle text-success"><strong>+ Tambah Sesi</strong></button>
+                <a href="{{ route('create-exam-date') }}" class="btn w-100 w-xl-0 bg-success-subtle text-success"><strong>+ Tambah Sesi</strong></a>
             </div>
         </div>
     </div>
@@ -20,12 +20,12 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Pengaturan</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Gelombang</th>
                                 <th>Penguji</th>
                                 <th>Peserta</th>
                                 <th>Status</th>
+                                <th>Pengaturan</th>
                             </tr>
                         </thead>
                         <tbody style="vertical-align: middle">

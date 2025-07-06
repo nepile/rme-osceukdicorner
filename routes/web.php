@@ -17,6 +17,11 @@ Route::middleware('jwt.auth.custom')->group(function () {
         Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard-admin');
         Route::prefix('/exam-model')->group(function () {
             Route::get('/', [ExamModelController::class, 'index'])->name('exam-model');
+            Route::prefix('/create-exam')->group(function () {
+                Route::get('/date', [ExamModelController::class, 'showCreateExam'])->name('create-exam-date');
+                Route::get('/tester', [ExamModelController::class, 'showCreateExam'])->name('create-exam-tester');
+                Route::get('/session', [ExamModelController::class, 'showCreateExam'])->name('create-exam-session');
+            });
         });
     });
 
