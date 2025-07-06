@@ -15,5 +15,6 @@
 </x-content>
 
 <x-footer>
-    <script src="{{ asset('js/admin.js') }}"></script>
+    <script src="{{ asset('js/adminSidebar.js') }}"></script>
+    <script src="{{ asset('js/adminPagePagination.js') }}"></script>
 </x-footer>
