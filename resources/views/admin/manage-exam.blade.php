@@ -1,4 +1,5 @@
 <x-admin-template title="{{ $title }}">
+    <x-alert />
     @if (request()->routeIs('create-exam-date'))
     <div class="row">
         <div class="col mb-4 d-flex justify-content-between align-items-end">
@@ -37,9 +38,24 @@
                             <h5>Tanggal Pelaksanaan</h5>
                             <p class="text-secondary">Tentukan tanggal pelaksanaan ujian</p>
                         </div>
-                        <div class="">
-                            {{-- <input type="date" class="form-control" name="" id="" value="{{ date('Y-m-d') }}"> --}}
-                            <input type="date" class="form-control" required name="" id="">
+                        <div class="d-flex">
+                            <form method="POST" class="d-flex" action="{{ route('store-exam-date') }}">
+                                @csrf
+                                {{-- <input type="date" class="form-control" name="" id="" value="{{ date('Y-m-d') }}"> --}}
+                                <input type="date" class="form-control" min="{{ date('Y-m-d', strtotime('now')) }}" value="{{ $date ? date('Y-m-d', strtotime($date["date"])) : '' }}" required name="date" id="date" @if($date) readonly @endif>
+                                @if (!$date)
+                                    <button class="btn"><span class="text-success">Simpan</span></button>
+                                @endif
+                            </form>
+
+                            @if ($date)
+                            <form action="{{ route('destroy-exam-date', $date['date_id']) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn" type="submit"><span class="text-danger">Hapus</span></button>
+                            </form>
+                            @endif
+                        
                         </div>
                     </div>
                 </div>
@@ -69,7 +85,7 @@
                         </div>
                     </div>
                     
-                    <x-alert />
+                    {{-- <x-alert /> --}}
 
                     <table class="table">
                         <thead>
@@ -80,24 +96,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Neville</td>
-                                <td>
-                                    <button class="btn bg-danger-subtle"><i class="bi bi-trash text-danger"></i></button>
-                                </td>
-                            </tr>
+                            @foreach ($testers as $tester)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $tester->user_id }}</td>
+                                    <td>
+                                        <form action="{{ route('destroy-exam-tester', $tester->tester_id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn bg-danger-subtle" type="submit"><i class="bi bi-trash text-danger"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     
-                    <div class="d-flex my-3" style="gap: 10px;">
-                        <select name="" class="form-select w-25" id="" required>
+                    <form method="POST" action="{{ route('store-exam-tester') }}" class="d-flex my-3" style="gap: 10px;">
+                        @csrf
+                        <select name="user_id" class="form-select w-25" id="" required>
                             <option value="">Silakan Pilih Penguji</option>
+                            <option value="2">Pokuji</option>
                         </select>
                         <button class="btn bg-success-subtle">
                             <i class="bi bi-arrow-up-short text-success fs-5 fw-bold"></i>
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -118,7 +142,7 @@
                         <p class="text-secondary">Tentukan gelombang ujian</p>
                     </div>
 
-                    <x-alert />
+                    {{-- <x-alert /> --}}
                     
                     <table class="table">
                         <thead>
@@ -131,31 +155,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Gelombang 1</td>
-                                <td>08.00</td>
-                                <td>12.00</td>
-                                <td>
-                                    <button class="btn bg-danger-subtle"><i class="bi bi-trash text-danger"></i></button>
-                                </td>
-                            </tr>
+                            @foreach ($waves as $wave)      
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>Gelombang {{ $loop->iteration }}</td>
+                                    <td>{{ $wave->start }}</td>
+                                    <td>{{ $wave->end }}</td>
+                                    <td>
+                                        <form action="{{ route('destroy-exam-session', $wave->wave_id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn bg-danger-subtle" type="submit"><i class="bi bi-trash text-danger"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     
-                    <div class="d-flex my-3 align-items-end" style="gap: 10px;">
+                    <form method="POST" action="{{ route('store-exam-session') }}" class="d-flex my-3 align-items-end" style="gap: 10px;">
+                        @csrf
                         <div class="">
                             <label for="">Waktu Mulai</label>    
-                            <input type="time" required class="form-control" placeholder="JAM" name="" id="" value="00">
+                            <input type="time" required class="form-control" placeholder="JAM" name="start_time" id="" value="00">
                         </div>
                         <div class="">
                             <label for="">Waktu Selesai</label>    
-                            <input type="time" required class="form-control" placeholder="MENIT" name="" id="" value="00">
+                            <input type="time" required class="form-control" placeholder="MENIT" name="end_time" id="" value="00">
                         </div>
-                        <button class="btn bg-success-subtle">
+                        <button type="submit" class="btn bg-success-subtle">
                             <i class="bi bi-arrow-up-short text-success fs-5 fw-bold"></i>
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -19,8 +19,16 @@ Route::middleware('jwt.auth.custom')->group(function () {
             Route::get('/', [ExamModelController::class, 'index'])->name('exam-model');
             Route::prefix('/create-exam')->group(function () {
                 Route::get('/date', [ExamModelController::class, 'showCreateExam'])->name('create-exam-date');
+                Route::post('/date', [ExamModelController::class, 'storeExam'])->name('store-exam-date');
+                Route::delete('/date/{date_id}', [ExamModelController::class, 'destroyExam'])->name('destroy-exam-date');
+
                 Route::get('/tester', [ExamModelController::class, 'showCreateExam'])->name('create-exam-tester');
+                Route::post('/tester', [ExamModelController::class, 'storeExam'])->name('store-exam-tester');
+                Route::delete('/tester/{tester_id}', [ExamModelController::class, 'destroyExam'])->name('destroy-exam-tester');
+
                 Route::get('/session', [ExamModelController::class, 'showCreateExam'])->name('create-exam-session');
+                Route::post('/session', [ExamModelController::class, 'storeExam'])->name('store-exam-session');
+                Route::delete('/session/{session_id}', [ExamModelController::class, 'destroyExam'])->name('destroy-exam-session');
             });
         });
     });
