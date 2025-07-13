@@ -9,6 +9,7 @@ use App\Models\WaveSession;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class ExamModelController extends Controller
@@ -19,6 +20,7 @@ class ExamModelController extends Controller
     protected $prefixRouteGET;
     protected $prefixRoutePOST;
     protected $prefixRouteDELETE;
+    protected $endpointApi;
 
     public function __construct()
     {
@@ -31,6 +33,8 @@ class ExamModelController extends Controller
         $this->prefixRouteGET = 'create-exam-';
         $this->prefixRoutePOST = 'store-exam-';
         $this->prefixRouteDELETE = 'destroy-exam-';
+
+        $this->endpointApi = config('services.api.url');
     }
 
     public function index(): View
@@ -64,17 +68,41 @@ class ExamModelController extends Controller
             $date = $this->examDateModel->where('session_id', null)->first();
         } elseif ($this->sroute('tester')) {
             $title = 'Penguji';
-            $tester = $this->testerModel->where('session_id', null)->get();
+
+            $testerDB = $this->testerModel
+                ->whereNull('session_id')
+                ->select('tester_id', 'user_id')
+                ->get();
+
+            $userIds = $testerDB->pluck('user_id')->toArray();
+
+            $response = Http::get($this->endpointApi . "testers-filter", [
+                'user_id' => $userIds
+            ]);
+
+            $collectTesterAPIWithDB = collect($response->json('data'));
+            $testerAPIWithDB = $testerDB->map(function ($tester) use ($collectTesterAPIWithDB) {
+                $apiData = $collectTesterAPIWithDB->firstWhere('user_id', $tester->user_id);
+                return [
+                    'tester_id' => $tester->tester_id,
+                    'user_id'   => $tester->user_id,
+                    'name'      => $apiData['name'] ?? null,
+                    'email'     => $apiData['email'] ?? null,
+                ];
+            });
+
+            $testerAPI = Http::get($this->endpointApi . "testers")->json()['data'];
         } elseif ($this->sroute('session')) {
             $title = 'Sesi Gelombang';
             $wave = $this->waveSesionModel->where('session_id', null)->get();
         }
 
         $data = [
-            'title'     => $title,
-            'date'      => $date ?? null,
-            'testers'   => $tester ?? null,
-            'waves'     => $wave ?? null,
+            'title'             => $title,
+            'date'              => $date ?? null,
+            'testerAPIWithDB'   => $testerAPIWithDB ?? null,
+            'testerAPI'         => $testerAPI ?? null,
+            'waves'             => $wave ?? null,
         ];
 
         return view('admin.manage-exam', $data);
