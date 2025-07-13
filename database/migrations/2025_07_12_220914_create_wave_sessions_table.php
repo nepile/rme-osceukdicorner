@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('wave_sessions', function (Blueprint $table) {
+            $table->id('wave_id');
+            $table->foreignUuid('session_id')->nullable()->constrained('exam_sessions', 'session_id')->cascadeOnDelete()->cascadeOnUpdate();
+            // $table->string('name');
+            $table->time('start');
+            $table->time('end');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('wave_sessions');
     }
 };
