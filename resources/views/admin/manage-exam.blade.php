@@ -92,16 +92,18 @@
                             <tr>
                                 <th>No</th>
                                 <th>Penguji</th>
+                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($testers as $tester)
+                            @foreach ($testerAPIWithDB as $tester)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $tester->user_id }}</td>
+                                    <td>{{ $tester['name'] }}</td>
+                                    <td>{{ $tester['email'] }}</td>
                                     <td>
-                                        <form action="{{ route('destroy-exam-tester', $tester->tester_id) }}" method="POST">
+                                        <form action="{{ route('destroy-exam-tester', $tester['tester_id']) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn bg-danger-subtle" type="submit"><i class="bi bi-trash text-danger"></i></button>
@@ -116,7 +118,9 @@
                         @csrf
                         <select name="user_id" class="form-select w-25" id="" required>
                             <option value="">Silakan Pilih Penguji</option>
-                            <option value="2">Pokuji</option>
+                            @foreach ($testerAPI as $testerapi)
+                                <option value="{{ $testerapi['user_id'] }}">{{ $testerapi['name'] }}</option>
+                            @endforeach
                         </select>
                         <button class="btn bg-success-subtle">
                             <i class="bi bi-arrow-up-short text-success fs-5 fw-bold"></i>
