@@ -4,16 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExamDate;
+use App\Models\ExamSession;
 use App\Models\Tester;
 use App\Models\WaveSession;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class ExamModelController extends Controller
 {
+    protected $examSessionModel;
     protected $examDateModel;
     protected $testerModel;
     protected $waveSesionModel;
@@ -26,6 +30,7 @@ class ExamModelController extends Controller
     {
         date_default_timezone_set('Asia/Jakarta');
 
+        $this->examSessionModel = new ExamSession();
         $this->examDateModel = new ExamDate();
         $this->testerModel = new Tester();
         $this->waveSesionModel = new WaveSession();
@@ -40,7 +45,8 @@ class ExamModelController extends Controller
     public function index(): View
     {
         $data = [
-            'title'     => 'Model Ujian',
+            'title'         => 'Model Ujian',
+            'examSessions'  => $this->examSessionModel->with(['examDate', 'testers', 'waveSessions'])->latest()->get()
         ];
         return view('admin.exam-model', $data);
     }
@@ -172,5 +178,40 @@ class ExamModelController extends Controller
         }
 
         return back();
+    }
+
+    public function finalizationExam(): RedirectResponse
+    {
+        $countDate = $this->examDateModel->where('session_id', null)->count();
+        $countTester = $this->testerModel->where('session_id', null)->count();
+        $countWaveSession = $this->waveSesionModel->where('session_id', null)->count();
+
+        if ($countDate < 1) {
+            return back()->with('danger', 'Tanggal ujian belum ditentukan.');
+        } elseif ($countTester < 1) {
+            return back()->with('danger', 'Penguji belum ditentukan. (minimal 1 penguji)');
+        } else if ($countWaveSession < 1) {
+            return back()->with('danger', 'Sesi gelombang belum ditentukan. (minimal 1 sesi gelombang).');
+        }
+
+        $uuid = (string) Str::uuid();
+
+        $this->examSessionModel->session_id = $uuid;
+        $this->examSessionModel->status = 'AKTIF';
+        $this->examSessionModel->save();
+
+        $sessionId = $uuid;
+
+        $this->examDateModel->where('session_id', null)->update([
+            'session_id'    => $sessionId
+        ]);
+        $this->testerModel->where('session_id', null)->update([
+            'session_id'    => $sessionId
+        ]);
+        $this->waveSesionModel->where('session_id', null)->update([
+            'session_id'    => $sessionId
+        ]);
+
+        return redirect()->route('exam-model')->with('success', 'Berhasil membuat sesi ujian');
     }
 }

@@ -29,6 +29,8 @@ Route::middleware('jwt.auth.custom')->group(function () {
                 Route::get('/session', [ExamModelController::class, 'showCreateExam'])->name('create-exam-session');
                 Route::post('/session', [ExamModelController::class, 'storeExam'])->name('store-exam-session');
                 Route::delete('/session/{session_id}', [ExamModelController::class, 'destroyExam'])->name('destroy-exam-session');
+
+                Route::post('/finalization', [ExamModelController::class, 'finalizationExam'])->name('finalization-exam');
             });
         });
     });

@@ -195,10 +195,11 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <form method="POST" action="{{ route('finalization-exam') }}" class="d-flex justify-content-between align-items-center mb-4">
+        @csrf
         <a href="{{ route('create-exam-tester') }}" class="btn bg-secondary-subtle">Kembali</a>
-        <a href="#" class="btn bg-primary-subtle text-primary"><strong>SIMPAN & SELESAI</strong></a>
-    </div>
+        <button type="submit" class="btn bg-primary-subtle text-primary"><strong>SIMPAN & SELESAI</strong></button>
+    </form>
     @endif
     
 </x-admin-template>
