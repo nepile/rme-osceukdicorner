@@ -1,6 +1,10 @@
-<x-header title="{{ $title }}" />
+<x-header :title="$title" />
 
-<x-navbar-participant />
+@if (request()->routeIs('examination') || request()->routeIs('diagnosis') || request()->routeIs('theraphy'))
+    <x-navbar-exam :active="$active ?? 'pemeriksaan'" />
+@else
+    <x-navbar-participant />
+@endif
 
 <x-content>
     {{ $slot }}

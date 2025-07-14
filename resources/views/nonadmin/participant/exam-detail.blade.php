@@ -51,12 +51,11 @@
                     <div class="col-md-3 mb-2">
                         <div class="card shadow-sm border rounded p-3 d-flex flex-column justify-content-between" style="height: auto; ">
                             <div>
-                                <h5 class="mb-2">{{ $ujian['nama'] }}</h5>
-                                <p><strong>Penguji:</strong> {{ $ujian['penguji'] }}</p>
+                                <h2>{{ $ujian['penguji'] }}</h2> <br>
                                 <p><strong>Gelombang ke:</strong> {{ $no }}</p>
                             </div>
                             <div class="text-end">
-                                <a href="#" class="btn btn-sm btn-success">Mulai</a>
+                                <a href="{{route('examination')}}" class="btn btn-sm btn-success">Mulai</a>
                             </div>
                         </div>
                     </div>
