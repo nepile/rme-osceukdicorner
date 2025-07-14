@@ -1,5 +1,6 @@
 
-<x-admin-template title="{{ $title }}"> 
+<x-admin-template title="{{ $title }}">
+    <x-alert />
     <div class="row">
         <div class="col d-xl-flex justify-content-between">
             <div>
@@ -29,16 +30,17 @@
                             </tr>
                         </thead>
                         <tbody style="vertical-align: middle">
+                            @foreach ($examSessions as $session)
                             <tr>
-                                <td>1.</td>
-                                <td>Selasa, 12 Okt 2025</td>
-                                <td>5</td>
-                                <td>10</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ date('D, d M Y', strtotime($session->examDate->date)) }}</td>
+                                <td>{{ $session->waveSessions->count() }}</td>
+                                <td>{{ $session->testers->count() }}</td>
                                 <td>0</td>
                                 <td>
                                     <div class="d-flex text-center align-items-center justify-content-center">
-                                        <span class="spinner-grow text-success spinner-grow-sm me-2" aria-hidden="true"></span>
-                                        <span role="status">Aktif</span>
+                                        <span class="spinner-grow @if($session->status == 'NONAKTIF') text-danger @elseif($session->status == 'MENUNGGU') text-warning @else text-success @endif spinner-grow-sm me-2" aria-hidden="true"></span>
+                                        <span role="status">{{ $session->status }}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -46,6 +48,7 @@
                                     <button class="btn border-dark"><strong><i class="bi bi-gear-fill text-primary"></i></strong></button>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

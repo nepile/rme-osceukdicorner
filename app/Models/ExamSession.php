@@ -15,7 +15,7 @@ class ExamSession extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'date',
+        // 'date',
         'status',
     ];
 
