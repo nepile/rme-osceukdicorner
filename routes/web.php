@@ -6,6 +6,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\NonAdmin\Participant\DashboardParticipantController;
 use App\Http\Controllers\NonAdmin\Tester\DashboardTesterController;
+use App\Http\Controllers\NonAdmin\Participant\ExamDetailController;
+use App\Http\Controllers\NonAdmin\Participant\ProfileController;
+use App\Http\Controllers\NonAdmin\Participant\ArchivesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -41,5 +44,8 @@ Route::middleware('jwt.auth.custom')->group(function () {
 
     Route::middleware('role:member')->prefix('/participant')->group(function () {
         Route::get('/dashboard', [DashboardParticipantController::class, 'index'])->name('dashboard-participant');
+        Route::get('/exam-detail', [ExamDetailController::class, 'index'])->name('exam-detail');
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+        Route::get('/archives', [ArchivesController::class, 'index'])->name('archives');
     });
-});
+}); 
