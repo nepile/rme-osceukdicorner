@@ -19,21 +19,6 @@ class ExamDetailController extends Controller
         $penguji = (int) $request->query('penguji', 0);
         $jumlah_gelombang = (int) $request->query('gelombang', 1);
 
-        $mapel = [
-            'Matematika',
-            'Bahasa Indonesia',
-            'IPA',
-            'Bahasa Inggris',
-            'Agama',
-            'PKN',
-            'IPS',
-            'TIK',
-            'Seni Budaya',
-            'Penjaskes'
-        ];
-
-        $mapel_dipakai = array_slice($mapel, 0, $penguji);
-
         $jam_template = [
             ['08:00', '09:30'],
             ['10:00', '11:30'],
@@ -52,7 +37,6 @@ class ExamDetailController extends Controller
 
             for ($j = 1; $j <= $max_ujian && $pengujiKe < $penguji; $j++) {
                 $ujian[] = [
-                    'nama' => $mapel_dipakai[$pengujiKe],
                     'penguji' => "Penguji " . ($pengujiKe + 1)
                 ];
                 $pengujiKe++;

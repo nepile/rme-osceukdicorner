@@ -6,7 +6,7 @@
                     {{-- Kotak Ujian --}}
                     <div class="card shadow-sm border rounded p-3 d-flex flex-column justify-content-between" style="height: 200px;">
                         <div>
-                            <h3 class="mb-1">{{ $exam['tanggal'] }}</h3> <br>
+                            <h1 class="mb-1">{{ $exam['tanggal'] }}</h1> <br>
                             <p class="mb-1"><strong>Jumlah Penguji:</strong> {{ $exam['penguji'] }}</p>
                             <p class="mb-1"><strong>Jumlah Gelombang:</strong> {{ $exam['gelombang'] }}</p>
                         </div>

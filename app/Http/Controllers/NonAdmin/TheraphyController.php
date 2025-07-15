@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class ExaminationController extends Controller
+class TheraphyController extends Controller
 {
     public function index(Request $request): View
     {
-        return view('nonadmin.examination', [
-            'title' => 'Ujian',
-            'active' => 'pemeriksaan'
+        return view('nonadmin.theraphy', [
+            'title' => 'Terapi',
+            'active' => 'terapi'
         ]);
     }
 }
