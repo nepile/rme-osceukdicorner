@@ -14,6 +14,7 @@ class AnswerTherapy extends Model
 
     protected $fillable = [
         'participant_id',
+        'tester_id',
         'rslash1',
         'rslash2',
         'rslash3',

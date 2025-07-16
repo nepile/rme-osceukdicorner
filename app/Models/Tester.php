@@ -28,4 +28,9 @@ class Tester extends Model
     {
         return $this->hasMany(Question::class, 'tester_id');
     }
+
+    public function participants(): HasMany
+    {
+        return $this->hasMany(EnrolledParticipant::class, 'tester_id');
+    }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\NonAdmin\ProfileController;
 use App\Http\Controllers\NonAdmin\Participant\ArchivesController;
 use App\Http\Controllers\NonAdmin\ExaminationController;
 use App\Http\Controllers\NonAdmin\DiagnosisController;
+use App\Http\Controllers\Nonadmin\Participant\EnrolledExamController;
 use App\Http\Controllers\NonAdmin\TheraphyController;
 use App\Http\Controllers\NonAdmin\Tester\AssessmentController;
 use Illuminate\Support\Facades\Route;
@@ -58,9 +59,9 @@ Route::middleware('jwt.auth.custom')->group(function () {
 
     Route::middleware(['role:member,mentor'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-        Route::get('/examination', [ExaminationController::class, 'index'])->name('examination');
-        Route::get('/diagnosis', [DiagnosisController::class, 'index'])->name('diagnosis');
-        Route::get('/theraphy', [TheraphyController::class, 'index'])->name('theraphy');
+        Route::get('/examination/{tester_id}', [ExaminationController::class, 'index'])->name('examination');
+        Route::get('/diagnosis/{tester_id}', [DiagnosisController::class, 'index'])->name('diagnosis');
+        Route::get('/theraphy/{tester_id}', [TheraphyController::class, 'index'])->name('theraphy');
     });
 
     Route::middleware('role:mentor')->prefix('/tester')->group(function () {
@@ -71,7 +72,17 @@ Route::middleware('jwt.auth.custom')->group(function () {
 
     Route::middleware('role:member')->prefix('/participant')->group(function () {
         Route::get('/dashboard', [DashboardParticipantController::class, 'index'])->name('dashboard-participant');
-        Route::get('/exam-detail', [ExamDetailController::class, 'index'])->name('exam-detail');
+        Route::get('/exam-detail/{session_id}', [ExamDetailController::class, 'index'])->name('exam-detail');
         Route::get('/archives', [ArchivesController::class, 'index'])->name('archives');
+
+        Route::post('/store-examination-answer', [ExaminationController::class, 'storeExaminationAnswer'])->name('store-examination-answer');
+        Route::delete('/delete-examination-answer/{answerexamination_id}', [ExaminationController::class, 'deleteExaminationAnswer'])->name('delete-examination-answer');
+        Route::post('/finalization-examination-answer', [ExaminationController::class, 'finalizationExaminationAnswer'])->name('finalization-examination-answer');
+
+        Route::post('/store-diagnosis-answer', [DiagnosisController::class, 'storeDiagnosisAnswer'])->name('store-diagnosis-answer');
+
+        Route::post('/store-therapy-answer', [TheraphyController::class, 'storeTherapyAnswer'])->name('store-therapy-answer');
+
+        Route::post('/enrolled-exam/{tester_id}', [EnrolledExamController::class, 'enrolled'])->name('enrolled-exam');
     });
 });
