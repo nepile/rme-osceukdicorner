@@ -4,19 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
     checkboxes.forEach(function (checkbox) {
         const container =
             checkbox.closest(".form-check").previousElementSibling;
+        const inputFile = container.querySelector(".subquestion-image");
 
         function toggleImageInput() {
             if (checkbox.checked) {
                 container.style.display = "block";
+                inputFile.setAttribute("required", "required");
             } else {
                 container.style.display = "none";
+                inputFile.removeAttribute("required");
             }
         }
 
-        // Panggil saat load pertama
         toggleImageInput();
-
-        // Pasang event listener
         checkbox.addEventListener("change", toggleImageInput);
     });
 });
