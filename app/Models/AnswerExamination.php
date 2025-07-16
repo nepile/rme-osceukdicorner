@@ -17,6 +17,7 @@ class AnswerExamination extends Model
         'participant_id',
         'subquestion_id',
         'answer',
+        'status',
     ];
 
     public function subQuestion(): BelongsTo

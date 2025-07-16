@@ -14,6 +14,7 @@ class AnswerDiagnosis extends Model
 
     protected $fillable = [
         'participant_id',
+        'tester_id',
         'diagnosis1',
         'diagnosis2',
         'diagnosis3',

@@ -14,10 +14,12 @@ return new class extends Migration
     {
         Schema::create('answer_therapies', function (Blueprint $table) {
             $table->uuid('answertherapy_id')->primary()->default(DB::raw('UUID()'));
-            $table->text('rslash1');
-            $table->text('rslash2');
-            $table->text('rslash3');
-            $table->text('rslash4');
+            $table->string('participant_id');
+            $table->foreignId('tester_id')->constrained('testers', 'tester_id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('rslash1')->nullable();
+            $table->text('rslash2')->nullable();
+            $table->text('rslash3')->nullable();
+            $table->text('rslash4')->nullable();
             $table->timestamps();
         });
     }

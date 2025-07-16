@@ -3,61 +3,44 @@
 namespace App\Http\Controllers\NonAdmin\Participant;
 
 use App\Http\Controllers\Controller;
+use App\Http\RestAPI\TesterAPI;
+use App\Models\EnrolledParticipant;
+use App\Models\ExamSession;
+use App\Models\WaveSession;
 use Illuminate\Http\Request;
 
 class ExamDetailController extends Controller
 {
+    protected $examSessionModel;
+    protected $waveSessionModel;
+    protected $enrolledParticipantModel;
+
+    public function __construct()
+    {
+        $this->examSessionModel = new ExamSession();
+        $this->waveSessionModel = new WaveSession();
+        $this->enrolledParticipantModel = new EnrolledParticipant();
+    }
+
     /**
      * Display the exam detail page.
      *
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index($sessionId)
     {
-        $tanggal = $request->query('tanggal');
-        $penguji = (int) $request->query('penguji', 0);
-        $jumlah_gelombang = (int) $request->query('gelombang', 1);
-
-        $jam_template = [
-            ['08:00', '09:30'],
-            ['10:00', '11:30'],
-            ['13:00', '14:30'],
-            ['15:00', '16:30'],
-            ['17:00', '18:30'],
-        ];
-
-        $gelombang = [];
-        $pengujiKe = 0;
-
-        for ($i = 1; $i <= $jumlah_gelombang; $i++) {
-            $ujian = [];
-
-            $max_ujian = ceil($penguji / $jumlah_gelombang);
-
-            for ($j = 1; $j <= $max_ujian && $pengujiKe < $penguji; $j++) {
-                $ujian[] = [
-                    'penguji' => "Penguji " . ($pengujiKe + 1)
-                ];
-                $pengujiKe++;
-            }
-
-            $gelombang[$i] = [
-                'jam_mulai' => $jam_template[$i - 1][0],
-                'jam_selesai' => $jam_template[$i - 1][1],
-                'ujian' => $ujian
-            ];
-        }
+        $session = $this->examSessionModel->with(['examDate', 'testers'])->where('session_id', $sessionId)->first();
+        $waveSessions = $this->waveSessionModel->where('session_id', $sessionId)->get();
 
         $data = [
             'title' => 'Detail Ujian Peserta',
-            'tanggal' => $tanggal,
-            'penguji' => $penguji,
-            'jumlah_gelombang' => $jumlah_gelombang,
-            'gelombang' => $gelombang
+            'session' => $session,
+            'testers' => TesterAPI::getMergedTesters($sessionId, null),
+            'waves' => $waveSessions,
+            'participant' => $this->enrolledParticipantModel->where('participant_id', session('user.user_id'))->first(),
         ];
 
         return view('nonadmin.participant.exam-detail', $data);
     }
 }
-

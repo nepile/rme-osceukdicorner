@@ -16,7 +16,8 @@ return new class extends Migration
             $table->uuid('answerexamination_id')->primary()->default(DB::raw('UUID()'));
             $table->string('participant_id');
             $table->foreignUuid('subquestion_id')->constrained('sub_questions', 'subquestion_id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->text('answer');
+            $table->text('answer')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

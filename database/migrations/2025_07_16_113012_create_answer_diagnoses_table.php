@@ -15,9 +15,10 @@ return new class extends Migration
         Schema::create('answer_diagnoses', function (Blueprint $table) {
             $table->uuid('answerdiagnosis_id')->primary()->default(DB::raw('UUID()'));
             $table->string('participant_id');
-            $table->text('diagnosis1');
-            $table->text('diagnosis2');
-            $table->text('diagnosis3');
+            $table->foreignId('tester_id')->constrained('testers', 'tester_id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('diagnosis1')->nullable();
+            $table->text('diagnosis2')->nullable();
+            $table->text('diagnosis3')->nullable();
             $table->timestamps();
         });
     }
