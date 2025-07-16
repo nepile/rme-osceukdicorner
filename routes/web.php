@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\ExaminationManagementController;
 use App\Http\Controllers\Admin\ExamModelController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -39,8 +40,13 @@ Route::middleware('jwt.auth.custom')->group(function () {
                 Route::post('/finalization', [ExamModelController::class, 'finalizationExam'])->name('finalization-exam');
             });
         });
+        Route::prefix('/examination-management')->group(function () {
+            Route::get('/{session_id}', [ExaminationManagementController::class, 'index'])->name('examination-management');
+            Route::get('/question/{session_id}/{tester_id}', [ExaminationController::class, 'showQuestion'])->name('examination-question');
+            Route::get('/list-tester')->name('examination-list-tester');
+        });
     });
-    
+
     Route::middleware(['role:member,mentor'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::get('/examination', [ExaminationController::class, 'index'])->name('examination');
@@ -57,5 +63,4 @@ Route::middleware('jwt.auth.custom')->group(function () {
         Route::get('/exam-detail', [ExamDetailController::class, 'index'])->name('exam-detail');
         Route::get('/archives', [ArchivesController::class, 'index'])->name('archives');
     });
-
-}); 
+});

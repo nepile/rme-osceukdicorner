@@ -44,8 +44,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn border-dark"><strong><i class="bi bi-ui-checks-grid text-success"></i></strong></button>
-                                    <button class="btn border-dark"><strong><i class="bi bi-gear-fill text-primary"></i></strong></button>
+                                    <a href="{{ route('examination-management', $session->session_id) }}" class="btn bg-primary-subtle"><strong class="text-primary"><i class="bi bi-ui-checks-grid text-primary"></i> SOAL</strong></a>
+                                    <button class="btn bg-secondary-subtle"><strong class="text-dark"><i class="bi bi-gear-fill text-dark"></i> EDIT</strong></button>
                                 </td>
                             </tr>
                             @endforeach

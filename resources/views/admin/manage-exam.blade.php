@@ -97,7 +97,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($testerAPIWithDB as $tester)
+                            @foreach ($mergedTesters as $tester)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $tester['name'] }}</td>
@@ -118,7 +118,7 @@
                         @csrf
                         <select name="user_id" class="form-select w-25" id="" required>
                             <option value="">Silakan Pilih Penguji</option>
-                            @foreach ($testerAPI as $testerapi)
+                            @foreach ($allTesters as $testerapi)
                                 <option value="{{ $testerapi['user_id'] }}">{{ $testerapi['name'] }}</option>
                             @endforeach
                         </select>
