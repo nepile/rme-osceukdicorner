@@ -11,7 +11,8 @@ class AssessmentController extends Controller
     public function show($id): View
     {
         return view('nonadmin.tester.assessment', [
-            'title' => 'Penilaian Peserta'
+            'title' => 'Penilaian Peserta',
+            'active' => 'penilaian',
         ]);
     }
 }
