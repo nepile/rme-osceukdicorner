@@ -23,9 +23,15 @@
             </a>
         </div>
         <div class="col-md-3">
-            <a href="{{ route('dashboard-participant') }}" class="btn btn-danger w-100">
-                KELUAR
-            </a>
+            @if (session('user.role') === 'mentor')
+                <a href="{{ route('assessment-tester', ['id' => 1]) }}"  class="btn btn-outline-primary w-100 fw-bold hover-btn">
+                    Penilaian
+                </a>
+            @else
+                <a href="{{ route('dashboard-participant') }}" class="btn btn-danger w-100">
+                    Keluar
+                </a>
+            @endif
         </div>
     </div>
 </div>
