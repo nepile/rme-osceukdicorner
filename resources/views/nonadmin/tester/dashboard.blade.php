@@ -126,4 +126,25 @@
         </div>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const tabLink = document.querySelector(`a[href="${hash}"]`);
+                if (tabLink) {
+                    new bootstrap.Tab(tabLink).show();
+                }
+            }
+
+            const tabLinks = document.querySelectorAll('#tableTabs a[data-bs-toggle="tab"]');
+            tabLinks.forEach(function (tabLink) {
+                tabLink.addEventListener('shown.bs.tab', function (e) {
+                    const targetId = e.target.getAttribute('href');
+                    history.replaceState(null, null, targetId);
+                });
+            });
+        });
+    </script>
+    
 </x-nonadmin-template>

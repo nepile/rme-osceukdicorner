@@ -3,18 +3,26 @@
 @if (session('user.role') === 'mentor')
     <x-navbar-tester />
 
-    @if (request()->routeIs('examination') || request()->routeIs('diagnosis') || request()->routeIs('theraphy'))
+    @if (
+        request()->routeIs('examination') ||
+        request()->routeIs('diagnosis') ||
+        request()->routeIs('theraphy') ||
+        request()->routeIs('assessment-tester')
+    )
         <x-navbar-exam :active="$active ?? 'pemeriksaan'" />
     @endif
 
-@elseif (request()->routeIs('examination') || request()->routeIs('diagnosis') || request()->routeIs('theraphy'))
-    {{-- Non-mentor masuk ke halaman khusus pemeriksaan --}}
+@elseif (
+    request()->routeIs('examination') ||
+    request()->routeIs('diagnosis') ||
+    request()->routeIs('theraphy') ||
+    request()->routeIs('assessment-tester')
+)
     <x-navbar-exam :active="$active ?? 'pemeriksaan'" />
+
 @else
-    {{-- Default peserta biasa --}}
     <x-navbar-participant />
 @endif
-
 
 <x-content>
     {{ $slot }}

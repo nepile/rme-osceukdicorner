@@ -15,11 +15,6 @@
             <div class="text-end">
                 <button class="btn btn-primary">KUMPULKAN</button>
             </div>
-
-            <div class="mt-3 text-success d-flex align-items-center">
-                <i class="bi bi-check-square-fill me-2"></i>
-                <strong>Tersimpan...</strong>
-            </div>
         </div>
     </div>
 </x-nonadmin-template>
