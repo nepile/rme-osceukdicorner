@@ -13,6 +13,7 @@ use App\Http\Controllers\NonAdmin\Participant\ArchivesController;
 use App\Http\Controllers\NonAdmin\ExaminationController;
 use App\Http\Controllers\NonAdmin\DiagnosisController;
 use App\Http\Controllers\NonAdmin\TheraphyController;
+use App\Http\Controllers\NonAdmin\Tester\AssessmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -56,6 +57,8 @@ Route::middleware('jwt.auth.custom')->group(function () {
 
     Route::middleware('role:mentor')->prefix('/tester')->group(function () {
         Route::get('/dashboard', [DashboardTesterController::class, 'index'])->name('dashboard-tester');
+        Route::get('/assessment/{id}', [AssessmentController::class, 'show'])->name('assessment-tester');
+        Route::get('/assessment', [AssessmentController::class, 'index'])->name('assessment');
     });
 
     Route::middleware('role:member')->prefix('/participant')->group(function () {
