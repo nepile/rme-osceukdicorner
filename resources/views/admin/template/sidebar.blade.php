@@ -14,13 +14,13 @@
         </li>
 
         <li class="nav-item ">
-            <a class="nav-link " href="#">Hasil Ujian</a>
+                <a class="nav-link {{ request()->routeIs('exam-results') ? 'fw-bold' : '' }}" href="{{ route('exam-results') }}">Hasil Ujian</a>
         </li>
         
         <hr>
 
         <li class="nav-item ">
-            <a class="nav-link " href="#">Daftar Penguji</a>
+                <a class="nav-link {{ request()->routeIs('examiner-list') ? 'fw-bold' : '' }}" href="{{ route('examiner-list') }}">Daftar Penguji</a>
         </li>
     </ul>
 </div>
