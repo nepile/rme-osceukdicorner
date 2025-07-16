@@ -43,8 +43,16 @@ Route::middleware('jwt.auth.custom')->group(function () {
         });
         Route::prefix('/examination-management')->group(function () {
             Route::get('/{session_id}', [ExaminationManagementController::class, 'index'])->name('examination-management');
-            Route::get('/question/{session_id}/{tester_id}', [ExaminationController::class, 'showQuestion'])->name('examination-question');
-            Route::get('/list-tester')->name('examination-list-tester');
+            Route::get('/question/{session_id}/{tester_id}', [ExaminationManagementController::class, 'showQuestion'])->name('examination-question');
+
+            Route::post('/create-question', [ExaminationManagementController::class, 'createExaminationQuestion'])->name('create-examination-question');
+            Route::delete('/delete-question/{question_id}', [ExaminationManagementController::class, 'deleteExaminationQuestion'])->name('delete-examination-question');
+            Route::put('/update-question/{question_id}', [ExaminationManagementController::class, 'updateExaminationQuestion'])->name('update-examination-question');
+
+
+            Route::post('/create-subquestion', [ExaminationManagementController::class, 'createExaminationSubQuestion'])->name('create-examination-subquestion');
+            Route::delete('/delete-subquestion/{subquestion_id}', [ExaminationManagementController::class, 'deleteExaminationSubQuestion'])->name('delete-examination-subquestion');
+            Route::put('/update-subquestion/{subquestion_id}', [ExaminationManagementController::class, 'updateExaminationSubQuestion'])->name('update-examination-subquestion');
         });
     });
 

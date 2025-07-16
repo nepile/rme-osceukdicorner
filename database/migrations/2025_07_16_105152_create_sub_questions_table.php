@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('sub_questions', function (Blueprint $table) {
             $table->uuid('subquestion_id')->primary()->default(DB::raw('UUID()'));
+            $table->string('subquestion_name')->nullable();
             $table->string('subquestion_image')->nullable();
             $table->foreignUuid('question_id')->constrained('questions', 'question_id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

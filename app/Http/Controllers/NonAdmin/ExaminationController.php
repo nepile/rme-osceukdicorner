@@ -24,18 +24,4 @@ class ExaminationController extends Controller
             'active' => 'pemeriksaan'
         ]);
     }
-
-    public function showQuestion($sessionId, $testerId): View
-    {
-        $session = $this->examSessionModel->where('session_id', $sessionId)->first();
-        $tester = TesterAPI::getMergedTesters($sessionId, $testerId)->first();
-
-        $data = [
-            'title'     => 'Soal - ' . $tester['name'],
-            'tester'    => $tester,
-            'session'   => $session,
-        ];
-
-        return view('admin.question-management', $data);
-    }
 }
